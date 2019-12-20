@@ -1,0 +1,18 @@
+{
+  "name": "macos-generative-bg",
+  "version": "1.0.0",
+  "description": "Generative art for my Mac's desktop wallpaper.",
+  "scripts": {
+    "generate": "./generate.sh"
+  },
+  "keywords": [
+    "javascript",
+    "generative",
+    "art"
+  ],
+  "author": "Samuel Dale",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "canvas": "^2.6.0"
+  }
+}
