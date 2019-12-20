@@ -1,5 +1,8 @@
 # JavaScript Generative Wallpapers
 
+## Samples
+You can find some generated samples [here](samples).
+
 ## Setup
 Install dependencies, then test that the generator is working. This should generate a wallpaper at `out/[timestamp].png`:
 ```sh
@@ -15,7 +18,7 @@ crontab -e
 ```
 
 Finally, point your OS to the `out` folder and tell it to cycle at the same interval set in your crontab:
-![macOS Desktop & Screen Saver preferences](/docs/settings.png)
+![macOS Desktop & Screen Saver preferences](docs/settings.png)
 
 ## Customisation
 

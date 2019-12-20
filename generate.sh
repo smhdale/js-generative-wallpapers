@@ -1,10 +1,10 @@
 #!/bin/sh
 
 # Choice of scripts to run
-generators[0]="maze"
-generators[1]="triangles"
-generators[2]="circles"
-generators[3]="fractals"
+generators[0]="circles"
+# generators[1]="triangles"
+# generators[2]="circles"
+# generators[3]="fractal"
 
 # Paths
 base_dir="$(cd "$(dirname "$0")" && pwd)"
