@@ -40,17 +40,19 @@ function drawDiagonal(ctx, x, y, dir) {
 	let y1 = dir ? 0 : cellSize
 	let y2 = dir ? cellSize : 0
 	// Draw line
+	ctx.beginPath()
 	ctx.moveTo(x + x1, y + y1)
 	ctx.lineTo(x + x2, y + y2)
+	ctx.closePath()
 	ctx.stroke()
 }
 
 function drawSquare(ctx, x, y) {
+	ctx.beginPath()
 	ctx.moveTo(x + cellSize, y)
 	ctx.lineTo(x, y - cellSize)
 	ctx.lineTo(x - cellSize, y)
 	ctx.lineTo(x, y + cellSize)
-	ctx.closePath()
 	ctx.fill()
 }
 

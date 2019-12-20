@@ -31,8 +31,10 @@ function drawTriangle(ctx, x, y, { corner, alpha }) {
 		.map(([cx, cy]) => [cx + x, cy + y])
 
 	// Draw triangle
+	ctx.beginPath()
 	ctx.moveTo(...first)
 	for (const cnr of rest) ctx.lineTo(...cnr)
+	ctx.closePath()
 	ctx.fill()
 }
 
