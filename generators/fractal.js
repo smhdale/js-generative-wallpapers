@@ -1,5 +1,5 @@
 const { createCanvas } = require('canvas')
-const { rand, randInt, choose, chooseWeighted } = require('../lib/helpers')
+const { rand, choose, chooseWeighted } = require('../lib/helpers')
 const { toCartesian, apothem } = require('../lib/trig')
 const { makeRandomGradient } = require('../lib/gradient')
 const draw = require('../lib/draw')
