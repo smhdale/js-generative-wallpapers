@@ -4,7 +4,7 @@
 generators[0]="maze"
 generators[1]="triangles"
 generators[2]="circles"
-generators[3]="fractal"
+generators[3]="fractals"
 
 # Paths
 base_dir="$(cd "$(dirname "$0")" && pwd)"
