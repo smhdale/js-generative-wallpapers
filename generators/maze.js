@@ -3,8 +3,8 @@ const { choose } = require('../lib/helpers')
 const { makeRandomGradient } = require('../lib/gradient')
 const draw = require('../lib/draw')
 
-const cellSize = 128
-const wd = 12
+const CELL_SIZE = 128
+const LINE_WIDTH = 12
 
 function makeGrid(width, height) {
 	const grid = []
@@ -36,35 +36,33 @@ function makeGrid(width, height) {
 function drawDiagonal(ctx, x, y, dir) {
 	// Set coordinates
 	let x1 = 0
-	let x2 = cellSize
-	let y1 = dir ? 0 : cellSize
-	let y2 = dir ? cellSize : 0
+	let x2 = CELL_SIZE
+	let y1 = dir ? 0 : CELL_SIZE
+	let y2 = dir ? CELL_SIZE : 0
 	// Draw line
-	ctx.beginPath()
 	ctx.moveTo(x + x1, y + y1)
 	ctx.lineTo(x + x2, y + y2)
-	ctx.closePath()
 	ctx.stroke()
 }
 
 function drawSquare(ctx, x, y) {
-	ctx.beginPath()
-	ctx.moveTo(x + cellSize, y)
-	ctx.lineTo(x, y - cellSize)
-	ctx.lineTo(x - cellSize, y)
-	ctx.lineTo(x, y + cellSize)
+	ctx.moveTo(x + CELL_SIZE, y)
+	ctx.lineTo(x, y - CELL_SIZE)
+	ctx.lineTo(x - CELL_SIZE, y)
+	ctx.lineTo(x, y + CELL_SIZE)
+	ctx.closePath()
 	ctx.fill()
 }
 
 draw(ctx => {
 	const { width, height } = ctx.canvas
 
-	const cols = Math.ceil(width / cellSize)
-	const rows = Math.ceil(height / cellSize)
+	const cols = Math.ceil(width / CELL_SIZE)
+	const rows = Math.ceil(height / CELL_SIZE)
 	const grid = makeGrid(cols, rows)
 
-	const mazeWidth = cols * cellSize
-	const mazeHeight = rows * cellSize
+	const mazeWidth = cols * CELL_SIZE
+	const mazeHeight = rows * CELL_SIZE
 
 	const xStart = (width - mazeWidth) / 2
 	const yStart = (height - mazeHeight) / 2
@@ -76,13 +74,13 @@ draw(ctx => {
 	// Draw maze
 	bufferCtx.fillStyle = 'black'
 	bufferCtx.strokeStyle = 'black'
-	bufferCtx.lineWidth = wd
+	bufferCtx.lineWidth = LINE_WIDTH
 	bufferCtx.lineCap = 'square'
 
 	for (const row of grid) {
 		for (const cell of row) {
-			const x = xStart + cell.x * cellSize
-			const y = yStart + cell.y * cellSize
+			const x = xStart + cell.x * CELL_SIZE
+			const y = yStart + cell.y * CELL_SIZE
 
 			if (cell.square) {
 				// Draw square
