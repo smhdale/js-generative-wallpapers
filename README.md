@@ -11,10 +11,15 @@ npm install && npm run generate
 
 Next, add a `crontab` rule to run the generator script at an interval you'd like (e.g. every minute):
 ```sh
+# Find path of your NodeJS binary
+# E.g. "/usr/bin/node"
+which node
+
+# Open crontab file for editing
 crontab -e
 
-# Add to crontab file
-* * * * * /path/to/generate.sh
+# Add generator rule to crontab file
+* * * * * /path/to/node /path/to/generate.js
 ```
 
 Finally, point your OS to the `out` folder and tell it to cycle at the same interval set in your crontab:

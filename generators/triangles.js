@@ -1,6 +1,5 @@
 const { createCanvas } = require('canvas')
 const { makeRandomGradient } = require('../lib/gradient')
-const draw = require('../lib/draw')
 
 const CELL_SIZE = 128
 const CORNERS = [
@@ -24,7 +23,7 @@ function makeGrid(width, height) {
 	return grid
 }
 
-function drawTriangle(ctx, x, y, { corner, alpha }) {
+function drawTriangle(ctx, x, y, { corner }) {
 	// Create corners
 	const [first, ...rest] = [...CORNERS]
 		.filter((_, i) => i !== corner)
@@ -38,7 +37,7 @@ function drawTriangle(ctx, x, y, { corner, alpha }) {
 	ctx.fill()
 }
 
-draw(ctx => {
+module.exports = ctx => {
 	const { width, height } = ctx.canvas
 
 	const cols = Math.ceil(width / CELL_SIZE)
@@ -74,4 +73,4 @@ draw(ctx => {
 	ctx.fillStyle = 'white'
 	ctx.fillRect(0, 0, width, height)
 	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
-})
+}

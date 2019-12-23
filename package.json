@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Generative art for my Mac's desktop wallpaper.",
   "scripts": {
-    "generate": "./generate.sh"
+    "generate": "node generate.js"
   },
   "keywords": [
     "javascript",

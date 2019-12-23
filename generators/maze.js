@@ -1,7 +1,6 @@
 const { createCanvas } = require('canvas')
 const { choose } = require('../lib/helpers')
 const { makeRandomGradient } = require('../lib/gradient')
-const draw = require('../lib/draw')
 
 const CELL_SIZE = 128
 const LINE_WIDTH = 12
@@ -54,7 +53,7 @@ function drawSquare(ctx, x, y) {
 	ctx.fill()
 }
 
-draw(ctx => {
+module.exports = ctx => {
 	const { width, height } = ctx.canvas
 
 	const cols = Math.ceil(width / CELL_SIZE)
@@ -100,4 +99,4 @@ draw(ctx => {
 	ctx.fillStyle = 'white'
 	ctx.fillRect(0, 0, width, height)
 	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
-})
+}

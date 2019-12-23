@@ -2,7 +2,6 @@ const { createCanvas } = require('canvas')
 const { rand, choose, chooseWeighted } = require('../lib/helpers')
 const { toCartesian, apothem } = require('../lib/trig')
 const { makeRandomGradient } = require('../lib/gradient')
-const draw = require('../lib/draw')
 
 const PI = Math.PI
 const CIRCLE = 2 * PI
@@ -112,7 +111,7 @@ class Fractal {
 	}
 }
 
-draw(ctx => {
+module.exports = ctx => {
 	const { width, height } = ctx.canvas
 
 	// Create a buffer canvas
@@ -154,4 +153,4 @@ draw(ctx => {
 	ctx.fillStyle = 'white'
 	ctx.fillRect(0, 0, width, height)
 	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
-})
+}

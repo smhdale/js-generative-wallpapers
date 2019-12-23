@@ -1,7 +1,6 @@
 const { createCanvas } = require('canvas')
 const { randInt } = require('../lib/helpers')
 const { makeRandomGradient } = require('../lib/gradient')
-const draw = require('../lib/draw')
 
 const RAD_MIN = 20
 const RAD_MAX = 600
@@ -29,7 +28,7 @@ function drawCircle(ctx) {
 	ctx.stroke()
 }
 
-draw(ctx => {
+module.exports = ctx => {
 	const { width, height } = ctx.canvas
 
 	// Create a buffer canvas
@@ -49,4 +48,4 @@ draw(ctx => {
 	ctx.fillStyle = 'white'
 	ctx.fillRect(0, 0, width, height)
 	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
-})
+}
