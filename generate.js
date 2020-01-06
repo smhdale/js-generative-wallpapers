@@ -10,7 +10,8 @@ const GENERATORS = [
 	'maze',
 	'triangles',
 	'circles',
-	'fractal'
+	'fractal',
+	'hexmaze'
 ]
 
 const outdir = (...args) => resolve(__dirname, 'out', ...args)
