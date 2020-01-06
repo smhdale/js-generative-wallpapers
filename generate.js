@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { readdirSync, unlink } = require('fs')
+const { readdirSync, existsSync, unlink } = require('fs')
 const { resolve } = require('path')
 const { choose } = require('./lib/helpers')
 const draw = require('./lib/draw')
@@ -32,17 +32,27 @@ function cleanExcept(fileToIgnore) {
 }
 
 /**
+ * Pulls generator from process args, or otherwise randomly chooses one.
+ */
+function pickGenerator() {
+	const name = process.argv[2] || choose(GENERATORS)
+	const path = resolve(__dirname, `generators/${name}.js`)
+
+	// Check generator exists
+	if (existsSync(path)) return require(path)
+
+	// Generator not found
+	console.log(`Couldn't find the "${name}" generator.`)
+	process.exit(0)
+}
+
+/**
  * Generates a background, removing all old backgrounds.
  */
 async function generate() {
-	// Pick a generator
-	const generatorName = choose(GENERATORS)
-	const generator = require(`./generators/${generatorName}`)
-
-	// Generate file
+	// Generate new background and remove old ones
+	const generator = pickGenerator()
 	const file = await draw(generator)
-
-	// Remove old generated files
 	await cleanExcept(file)
 }
 
