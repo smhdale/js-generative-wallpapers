@@ -35,7 +35,16 @@ Each generator can be tweaked by playing with the constants defined at the top o
 ### Writing your own generators
 See `generators/template.js` for a barebones example, but basically you're given a 2D canvas context and can do whatever you'd like with it. Most HTML5 canvas methods are supported; see the [canvas](https://www.npmjs.com/package/canvas) package on NPM for more information.
 
+When writing or modifying generators, you can explicitly pass a generator's name to output to `dev` rather than `out` for testing purposes:
+```sh
+npm run generate [name]
+
+# E.g. "npm run generate hexmaze"
+# will create "dev/hexmaze.png"
+# rather than "out/[timestamp].png"
+```
+
 Check out the existing generators for inspiration, and if you write one you're proud of please submit a PR!
 
 ### Mix & match generators
-The first few lines in `generate.sh` define a set of generators to pick from at random every time the script is run. Mix & match generators to your liking!
+The `GENERATORS` array in `generate.js` defines a set of generators to pick from at random every time the script is run. Mix & match generators to your liking!
