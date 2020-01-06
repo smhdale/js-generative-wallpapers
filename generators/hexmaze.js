@@ -1,8 +1,10 @@
 const { randInt } = require('../lib/helpers')
+const { toCartesian } = require('../lib/trig')
 
-const CELL_ANGLE = Math.PI / 6
+const CELL_SIDES = 6
+const CELL_ANGLE = 2 * Math.PI / CELL_SIDES
 const CELL_RAD = 64
-const CELL_SIDE = CELL_RAD * 2 * Math.tan(CELL_ANGLE)
+const CELL_SIDE = CELL_RAD * 2 * Math.tan(CELL_ANGLE / 2)
 
 const pickRotation = () => randInt(0, 5) * CELL_ANGLE
 
@@ -37,6 +39,23 @@ function makeGrid(width, height) {
 	return grid
 }
 
+function drawHex(ctx, hex) {
+	const getVertex = dir => {
+		const offset = toCartesian(CELL_SIDE, dir + CELL_ANGLE / 2)
+		return [hex.x + offset.x, hex.y + offset.y]
+	}
+
+	// Draw hexagon outline
+	ctx.beginPath()
+	for (let i = 0; i < CELL_SIDES; i++) {
+		const vertex = getVertex(i * CELL_ANGLE)
+		if (i) ctx.lineTo(...vertex)
+		else ctx.moveTo(...vertex)
+	}
+	ctx.closePath()
+	ctx.stroke()
+}
+
 module.exports = ctx => {
 	// White bg
 	const { width, height } = ctx.canvas
@@ -51,9 +70,6 @@ module.exports = ctx => {
 	// Draw hex grid
 	const grid = makeGrid(width, height)
 	for (const hex of grid) {
-		ctx.beginPath()
-		ctx.moveTo(hex.x, hex.y)
-		ctx.lineTo(hex.x, hex.y)
-		ctx.stroke()
+		drawHex(ctx, hex)
 	}
 }
