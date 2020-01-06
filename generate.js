@@ -35,11 +35,13 @@ function cleanExcept(fileToIgnore) {
  * Pulls generator from process args, or otherwise randomly chooses one.
  */
 function pickGenerator() {
-	const name = process.argv[2] || choose(GENERATORS)
+	const specified = process.argv[2]
+	const name = specified || choose(GENERATORS)
+	const dev = Boolean(specified)
 	const path = resolve(__dirname, `generators/${name}.js`)
 
 	// Check generator exists
-	if (existsSync(path)) return require(path)
+	if (existsSync(path)) return { name, fn: require(path), dev }
 
 	// Generator not found
 	console.log(`Couldn't find the "${name}" generator.`)
@@ -53,7 +55,7 @@ async function generate() {
 	// Generate new background and remove old ones
 	const generator = pickGenerator()
 	const file = await draw(generator)
-	await cleanExcept(file)
+	if (!generator.dev) await cleanExcept(file)
 }
 
 // Run generator when script is called
