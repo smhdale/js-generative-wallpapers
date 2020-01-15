@@ -1,10 +1,12 @@
+const { createCanvas } = require('canvas')
+const { makeRandomGradient } = require('../lib/gradient')
 const { clamp, randInt, randSkewed } = require('../lib/helpers')
 const { toCartesian, pointDistance, pointDirection } = require('../lib/trig')
 
-const BALL_COUNT_MIN = 100
-const BALL_COUNT_MAX = 150
-const BALL_RAD_MIN = 20
-const BALL_RAD_MAX = 250
+const BALL_COUNT_MIN = 150
+const BALL_COUNT_MAX = 200
+const BALL_RAD_MIN = 50
+const BALL_RAD_MAX = 400
 const SIMULATION_STEPS = 50
 
 class Ball {
@@ -74,7 +76,7 @@ class BallSim {
 	}
 }
 
-module.exports = ctx => {
+module.exports = (ctx, { dark }) => {
 	const { width, height } = ctx.canvas
 	const bounds = {
 		top: 0,
@@ -90,11 +92,19 @@ module.exports = ctx => {
 		sim.step()
 	}
 
-	// White background
-	ctx.fillStyle = 'white'
-	ctx.fillRect(0, 0, width, height)
+	// Draw balls onto buffer canvas
+	const buffer = createCanvas(width, height)
+	const bufferCtx = buffer.getContext('2d')
+	bufferCtx.fillStyle = 'black'
+	sim.forEach(ball => ball.draw(bufferCtx))
 
-	// Draw all simulation balls
-	ctx.fillStyle = 'black'
-	sim.forEach(ball => ball.draw(ctx))
+	// Draw gradient over balls
+	bufferCtx.globalCompositeOperation = 'source-in'
+	bufferCtx.fillStyle = makeRandomGradient(bufferCtx, width, height)
+	bufferCtx.fillRect(0, 0, width, height)
+
+	// Draw buffer canvas onto main canvas
+	ctx.fillStyle = dark ? '#464646' : 'white'
+	ctx.fillRect(0, 0, width, height)
+	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
 }
