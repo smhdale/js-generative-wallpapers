@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const argv = require('minimist')(process.argv.slice(2))
 const { readdirSync, existsSync, unlink } = require('fs')
 const { resolve } = require('path')
 const { choose } = require('./lib/helpers')
@@ -36,7 +37,7 @@ function cleanExcept(fileToIgnore) {
  * Pulls generator from process args, or otherwise randomly chooses one.
  */
 function pickGenerator() {
-	const specified = process.argv[2]
+	const specified = argv._[0]
 	const name = specified || choose(GENERATORS)
 	const dev = Boolean(specified)
 	const path = resolve(__dirname, `generators/${name}.js`)
@@ -55,7 +56,7 @@ function pickGenerator() {
 async function generate() {
 	// Generate new background and remove old ones
 	const generator = pickGenerator()
-	const file = await draw(generator)
+	const file = await draw(generator, argv)
 	if (!generator.dev) await cleanExcept(file)
 }
 
