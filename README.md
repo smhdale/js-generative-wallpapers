@@ -35,7 +35,7 @@ CLI argument parsing is facilitated by [minimist](https://www.npmjs.com/package/
 ```
 
 ### Modifying the existing generators
-There are currently five different generators in this repo: maze, hexmaze, triangles, circles and a fractal generator. Generator files are written in JavaScript and can be found in the `generators` folder.
+There are currently six different generators in this repo: maze, hexmaze, triangles, circles, balls and a fractal generator. Generator files are written in JavaScript and can be found in the `generators` folder.
 
 Each generator can be tweaked by playing with the constants defined at the top of tile file. For example, tweaking `CELL_SIZE` in the `generators/triangles.js` generator will make the triangles larger or smaller.
 

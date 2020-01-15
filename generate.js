@@ -12,7 +12,8 @@ const GENERATORS = [
 	'triangles',
 	'circles',
 	'fractal',
-	'hexmaze'
+	'hexmaze',
+	'balls'
 ]
 
 const outdir = (...args) => resolve(__dirname, 'out', ...args)
