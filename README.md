@@ -27,6 +27,13 @@ Finally, point your OS to the `out` folder and tell it to cycle at the same inte
 
 ## Customisation
 
+### Command-line arguments
+CLI argument parsing is facilitated by [minimist](https://www.npmjs.com/package/minimist). All the default generators support a `--dark` flag to replace the white background with a dark grey one.
+```sh
+# E.g. use this crontab rule to generate dark mode wallpapers
+* * * * * /path/to/node /path/to/generate.js --dark
+```
+
 ### Modifying the existing generators
 There are currently four different generators in this repo: maze, triangles, circles and a fractal generator. Generator files are written in JavaScript and can be found in the `generators` folder.
 
