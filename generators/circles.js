@@ -28,7 +28,7 @@ function drawCircle(ctx) {
 	ctx.stroke()
 }
 
-module.exports = ctx => {
+module.exports = (ctx, { dark }) => {
 	const { width, height } = ctx.canvas
 
 	// Create a buffer canvas
@@ -45,7 +45,7 @@ module.exports = ctx => {
 	bufferCtx.fillRect(0, 0, width, height)
 
 	// Draw buffer canvas onto main canvas
-	ctx.fillStyle = 'white'
+	ctx.fillStyle = dark ? '#464646' : 'white'
 	ctx.fillRect(0, 0, width, height)
 	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
 }
