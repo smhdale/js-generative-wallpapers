@@ -76,6 +76,20 @@ class BallSim {
 	}
 }
 
+class GradientBuffer {
+	constructor(width, height) {
+		this.canvas = createCanvas(width, height)
+		this.ctx = this.canvas.getContext('2d')
+		this.ctx.fillStyle = makeRandomGradient(this.ctx, width, height)
+		this.ctx.fillRect(0, 0, width, height)
+	}
+
+	sample(x, y) {
+		const { data: [r, g, b] } = this.ctx.getImageData(x, y, 1, 1)
+		return `rgb(${r},${g},${b})`
+	}
+}
+
 module.exports = (ctx, { dark }) => {
 	const { width, height } = ctx.canvas
 	const bounds = {
@@ -86,25 +100,22 @@ module.exports = (ctx, { dark }) => {
 	}
 	const count = randInt(BALL_COUNT_MIN, BALL_COUNT_MAX)
 
-	// Simulate balls for a few steps to space them out
-	const sim = new BallSim(count, bounds)
-	for (let i = 0; i < SIMULATION_STEPS; i++) {
-		sim.step()
-	}
-
-	// Draw balls onto buffer canvas
-	const buffer = createCanvas(width, height)
-	const bufferCtx = buffer.getContext('2d')
-	bufferCtx.fillStyle = 'black'
-	sim.forEach(ball => ball.draw(bufferCtx))
-
-	// Draw gradient over balls
-	bufferCtx.globalCompositeOperation = 'source-in'
-	bufferCtx.fillStyle = makeRandomGradient(bufferCtx, width, height)
-	bufferCtx.fillRect(0, 0, width, height)
-
-	// Draw buffer canvas onto main canvas
+	// Fill canvas with background colour
 	ctx.fillStyle = dark ? '#464646' : 'white'
 	ctx.fillRect(0, 0, width, height)
-	ctx.drawImage(buffer, 0, 0, width, height, 0, 0, width, height)
+
+	// Simulate balls for a few steps to space them out
+	const sim = new BallSim(count, bounds)
+	for (let i = 0; i < SIMULATION_STEPS; i++) sim.step()
+
+	// Create gradient buffer canvas for sampling purposes
+	const gradient = new GradientBuffer(width, height)
+
+	// Draw balls onto main canvas, sampling colours from gradient buffer
+	sim.forEach(ball => {
+		const { x, y } = ball
+		const samplePoint = [clamp(x, 0, width - 1), clamp(y, 0, height - 1)]
+		ctx.fillStyle = gradient.sample(...samplePoint)
+		ball.draw(ctx)
+	})
 }
