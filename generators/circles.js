@@ -1,18 +1,18 @@
 const { createCanvas } = require('canvas')
-const { randInt } = require('../lib/helpers')
+const { randInt, randSkewed } = require('../lib/helpers')
 const { makeRandomGradient } = require('../lib/gradient')
 
-const RAD_MIN = 20
-const RAD_MAX = 600
-const THICKNESS_MIN = 2
-const THICKNESS_PCT_MAX = 0.3
-const NUM_CIRCLES_MIN = 50
-const NUM_CIRCLES_MAX = 100
-const EDGE_PAD = -400
+const RAD_MIN = 60
+const RAD_MAX = 1000
+const THICKNESS_MIN = 4
+const THICKNESS_PCT_MAX = 1
+const NUM_CIRCLES_MIN = 20
+const NUM_CIRCLES_MAX = 40
+const EDGE_PAD = -600
 
 function drawCircle(ctx) {
 	const { width, height } = ctx.canvas
-	const radiusOuter = randInt(RAD_MIN, RAD_MAX)
+	const radiusOuter = randSkewed(x => x ** 2) * (RAD_MAX - RAD_MIN) + RAD_MIN
 	const thicknessMax = Math.max(THICKNESS_MIN, radiusOuter * THICKNESS_PCT_MAX)
 	const thickness = randInt(THICKNESS_MIN, thicknessMax)
 	const x = randInt(radiusOuter + EDGE_PAD, width - radiusOuter - EDGE_PAD)
