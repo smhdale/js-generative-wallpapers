@@ -14,6 +14,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "canvas": "^2.6.0",
+    "hsl-to-rgb-for-reals": "^1.1.1",
     "minimist": "^1.2.0"
   }
 }
