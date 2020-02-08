@@ -17,7 +17,7 @@ const DEGREES_MAX = CIRCLE
 const RAY_SPEED = 0.01
 const RENDER_SCALE = 0.5
 const COLOR_EXP = 10
-const FIDELITY = 1000
+const FIDELITY = 2000
 
 /**
  * Calculates how many steps a complex number must take
