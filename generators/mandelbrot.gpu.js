@@ -22,7 +22,7 @@ const FIDELITY = 2000
 /**
  * Calculates how many steps a complex number must take
  * before overflowing the bound of the Mandelbrot set.
- * 
+ *
  * @param {number} r Real component of the complex number.
  * @param {number} i Imaginary component of the complex number.
  * @param {number} fidelity How many iterations to perform before giving up.
@@ -45,13 +45,13 @@ function escapeSteps(r, i, fidelity) {
 		y = 2 * x * y + i
 		x = xsq - ysq + r
 	}
-	
+
 	return fidelity
 }
 
 /**
  * Approximates whether a complex number belongs to the Mandelbrot set.
- * 
+ *
  * @param {number} r Real component of the complex number.
  * @param {number} i Imaginary component of the complex number.
  * @param {number} fidelity How many iterations to perform before giving up.
@@ -64,7 +64,7 @@ function inSet(r, i, fidelity) {
 /**
  * Starts at a number probably in the Mandelbrot set and follows a straight
  * line until a point not in the set is found. Returns that point.
- * 
+ *
  * @returns {number[]} Complex number not in the Mandelbrot set.
  */
 function pickOrigin() {
@@ -90,7 +90,7 @@ function pickOrigin() {
 /**
  * Computes viewport bounds based on canvas width & height, origin point
  * and zoom level, to use to convert canvas coordinates to viewport coordinates.
- * 
+ *
  * @param {number} width Canvas width in pixels.
  * @param {number} height Canvas height in pixels.
  * @param {number} origin Complex number representing center of view.
@@ -111,7 +111,7 @@ function setBounds(width, height, origin, zoom) {
 
 /**
  * Normalised exponential easing function.
- * 
+ *
  * @param {number} x Input value between 0 and 1.
  * @returns {number} Output value between 0 and 1 following exponential curve.
  */
@@ -120,7 +120,7 @@ const easeOutExp = x => x === 1 ? 1 : 1 - Math.pow(2, x * -COLOR_EXP)
 /**
  * Creates a color palette of a given length to use for color-coding
  * escape step values computed for canvas pixels.
- * 
+ *
  * @param {number} length Number of color stops to generate.
  * @param {string} [setColor=black] Color to use for numbers in the Mandelbrot set.
  * @returns {string[]} Array of CSS color values.
@@ -168,16 +168,14 @@ module.exports = ctx => {
 
 	const compute = gpu
 		.createKernel(function () {
-			// Destructure required values
-			const { x, y } = this.thread
-			const { cw, ch, bx, by, bw, bh, fidelity } = this.constants
-
 			// Convert pixel coord to complex number
-			const r = bx + bw * (x / cw)
-			const i = by + bh * (y / ch)
+			const xpct = this.thread.x / this.constants.cw
+			const ypct = this.thread.y / this.constants.ch
+			const r = this.constants.bx + this.constants.bw * xpct
+			const i = this.constants.by + this.constants.bh * ypct
 
 			// Return escape steps for this coordinate
-			return escapeSteps(r, i, fidelity)
+			return escapeSteps(r, i, this.constants.fidelity)
 		})
 		.setConstants({
 			cw: width,
