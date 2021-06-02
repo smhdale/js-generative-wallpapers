@@ -8,13 +8,13 @@ const draw = require('./lib/draw')
 
 // Choice of generators to run
 const GENERATORS = [
-	'maze',
-	'triangles',
-	'circles',
-	'fractal',
-	'hexmaze',
-	'balls',
-	'mandelbrot'
+	// 'maze',
+	// 'triangles',
+	// 'circles',
+	// 'fractal',
+	// 'hexmaze',
+	// 'balls',
+	'mandelbrot.gpu'
 ]
 
 const outdir = (...args) => resolve(__dirname, 'out', ...args)
